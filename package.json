@@ -15,7 +15,8 @@
     "lint": "eslint --cache --ext .js,.ts src/ test/",
     "test": "mocha test/",
     "test-build": "yarn tsc -p test/tsconfig.json --noEmit",
-    "test-release": "yarn test-build && c8 mocha --config .mocharc-release.yml test/"
+    "test-release": "yarn test-build && c8 mocha --config .mocharc-release.yml test/",
+    "start": "node build/index.js"
   },
   "license": "MIT",
   "repository": {

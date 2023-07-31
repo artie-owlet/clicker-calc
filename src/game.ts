@@ -4,12 +4,8 @@ import {
     IConversionInput,
     IConversionOutcome,
     IConversionWin,
-} from './rules';
-
-type Item = {
-    amount: number;
-    max?: number;
-};
+    IGameConfig,
+} from './game-config';
 
 class VerificationError extends Error {}
 
@@ -18,6 +14,11 @@ class BugError extends Error {
         super(`BUG: ${msg}`);
     }
 }
+
+type Item = {
+    amount: number;
+    max?: number;
+};
 
 function getItem(name: string, items: Map<string, Item>): Item {
     const item = items.get(name);
@@ -153,39 +154,72 @@ class PeriodConversion extends Conversion {
         super.execute();
         this.nextExecTime += this.period;
     }
+
+    public reset(): void {
+        this.nextExecTime = this.period;
+    }
 }
 
-export function simulate(maxTime: number, items: Map<string, Item>, convRules: IConversion[]): void {
-    const conversions: Conversion[] = [];
-    const periodConversions: PeriodConversion[] = [];
-    convRules.forEach((conv) => {
-        if (conv.period) {
-            periodConversions.push(new PeriodConversion(conv as Required<IConversion>, items));
-        } else {
-            conversions.push(new Conversion(conv, items));
-        }
-    });
+export class Game {
+    private items = new Map<string, Item>();
+    private initAmounts: Record<string, number>;
+    private conversions: Conversion[] = [];
+    private periodConversions: PeriodConversion[] = [];
 
-    let time = 0;
-    do {
-        periodConversions.forEach((conv) => {
-            if (conv.nextExecTime === time) {
-                conv.execute();
+    constructor(config: IGameConfig) {
+        config.items.forEach(name => this.items.set(name, { amount: 0 }));
+        for (const name in config.itemsMax) {
+            this.items.set(name, { amount: 0, max: config.itemsMax[name] });
+        }
+        for (const name in config.initAmounts) {
+            const item = getItem(name, this.items);
+            item.amount = config.initAmounts[name];
+        }
+        this.initAmounts = config.initAmounts;
+
+        config.conversions.forEach((conv) => {
+            if (conv.period) {
+                this.periodConversions.push(new PeriodConversion(conv as Required<IConversion>, this.items));
+            } else {
+                this.conversions.push(new Conversion(conv, this.items));
             }
         });
+    }
 
-        let executed: boolean;
+    public simulate(maxTime: number): void {
+        let time = 0;
         do {
-            executed = false;
-            conversions.forEach((conv) => {
-                if (conv.canExecute()) {
+            this.periodConversions.forEach((conv) => {
+                if (conv.nextExecTime === time) {
                     conv.execute();
-                    executed = true;
                 }
             });
-        } while (executed);
 
-        time = periodConversions.reduce(
-            (t, conv) => conv.canExecute() && conv.nextExecTime < t ? conv.nextExecTime : t, maxTime);
-    } while (time < maxTime);
+            let executed: boolean;
+            do {
+                executed = false;
+                this.conversions.forEach((conv) => {
+                    if (conv.canExecute()) {
+                        conv.execute();
+                        executed = true;
+                    }
+                });
+            } while (executed);
+
+            time = this.periodConversions.reduce(
+                (t, conv) => conv.canExecute() && conv.nextExecTime < t ? conv.nextExecTime : t, maxTime);
+        } while (time < maxTime);
+    }
+
+    public reset(): void {
+        this.items.forEach((item, name) => item.amount = this.initAmounts[name] ?? 0);
+        this.periodConversions.forEach(conv => conv.reset());
+    }
+
+    public result(): Map<string, number> {
+        const res = new Map<string, number>();
+        this.items.forEach((item, name) => res.set(name, item.amount));
+        return res;
+    }
 }
+
