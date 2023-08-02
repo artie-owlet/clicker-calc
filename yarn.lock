@@ -19,6 +19,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@artie-owlet/clicker-calc@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@artie-owlet/clicker-calc@workspace:."
+  dependencies:
+    "@artie-owlet/chifir": ^2.0.0
+    "@types/mocha": ^10.0.1
+    "@types/node": ^20.4.2
+    "@typescript-eslint/eslint-plugin": ^6.1.0
+    "@typescript-eslint/parser": ^6.1.0
+    c8: ^8.0.0
+    eslint: ^8.45.0
+    mocha: ^10.2.0
+    parse-duration: ^1.1.0
+    ts-node: ^10.9.1
+    typedoc: ^0.24.8
+    typescript: ^5.1.6
+  languageName: unknown
+  linkType: soft
+
 "@bcoe/v8-coverage@npm:^0.2.3":
   version: 0.2.3
   resolution: "@bcoe/v8-coverage@npm:0.2.3"
@@ -2187,25 +2206,6 @@ __metadata:
   checksum: 87f4164e396f0171b0a3386cc1877a817f572148ee13a7e113b238e48e8a9f2f31d009a92ec38a591ff1567d9662c6b67fd8818a2dbbaed74bc26a87a2a4a9a0
   languageName: node
   linkType: hard
-
-"root-workspace-0b6124@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root-workspace-0b6124@workspace:."
-  dependencies:
-    "@artie-owlet/chifir": ^2.0.0
-    "@types/mocha": ^10.0.1
-    "@types/node": ^20.4.2
-    "@typescript-eslint/eslint-plugin": ^6.1.0
-    "@typescript-eslint/parser": ^6.1.0
-    c8: ^8.0.0
-    eslint: ^8.45.0
-    mocha: ^10.2.0
-    parse-duration: ^1.1.0
-    ts-node: ^10.9.1
-    typedoc: ^0.24.8
-    typescript: ^5.1.6
-  languageName: unknown
-  linkType: soft
 
 "run-parallel@npm:^1.1.9":
   version: 1.2.0
