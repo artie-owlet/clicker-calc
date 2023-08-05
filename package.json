@@ -1,0 +1,48 @@
+{
+  "name": "@artie-owlet/clicker-calc",
+  "version": "0.0.1-dev.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build-release": "tsc -p tsconfig-release.json",
+    "clean": "rm -rf build/ dist/",
+    "coverage": "c8 yarn test",
+    "doc": "typedoc",
+    "lint": "eslint --cache --ext .js,.ts src/ test/",
+    "test": "mocha test/",
+    "test-build": "yarn tsc -p test/tsconfig.json --noEmit",
+    "test-release": "yarn test-build && c8 mocha --config .mocharc-release.yml test/"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artie-owlet/clicker-calc.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "keywords": [],
+  "packageManager": "yarn@3.6.1",
+  "devDependencies": {
+    "@artie-owlet/chifir": "^2.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/node": "^20.4.2",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "c8": "^8.0.0",
+    "eslint": "^8.45.0",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1",
+    "typedoc": "^0.24.8",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "parse-duration": "^1.1.0"
+  }
+}

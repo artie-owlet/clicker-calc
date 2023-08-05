@@ -1,0 +1,6 @@
+exit: true
+extension: ['ts']
+recursive: true
+reporter: dot
+require:
+- ts-node/register/transpile-only

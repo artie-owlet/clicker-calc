@@ -1,0 +1,15 @@
+{
+  "tsconfig": "./tsconfig-doc.json",
+  "entryPoints": [
+    "./doc.d.ts"
+  ],
+  "readme": "none",
+  "out": "./public",
+  "includeVersion": true,
+  "disableSources": true,
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "intentionallyNotExported": [
+  ]
+}
